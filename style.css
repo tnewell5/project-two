@@ -1,0 +1,10 @@
+body {
+  font-family: papyrus;
+  background: lightgray;
+}
+
+#user-etsy-input {
+  width: 180px;
+  height: 20px;
+  border-radius: 4px;
+}
