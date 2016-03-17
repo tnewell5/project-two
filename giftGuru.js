@@ -12,7 +12,7 @@ $submitButton.on("click", function() {
   console.log($userEtsySearch);
 
   //create Etsy listings query:
-  query = "https://openapi.etsy.com/v2/listings/active?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY;
+  query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo";
   console.log(query);
   ajaxCall(query);
 
@@ -20,8 +20,8 @@ $submitButton.on("click", function() {
   $userEtsySearch = $userEtsySearch.split(' ').shift();
   console.log($userEtsySearch);
 
-  query = "https://openapi.etsy.com/v2/treasuries?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY;
-  console.log(query);
+  // query = "https://openapi.etsy.com/v2/treasuries?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY;
+  // console.log(query);
 
   //create events query:
 
@@ -32,30 +32,39 @@ $submitButton.on("click", function() {
   function ajaxCall (query) {
     $.ajax({
       url: query,
-      jsonp: "callback",
+      // jsonp: "callback",
       dataType: 'jsonp',
-      // crossDomain: true,
-      // data: {
-      //   q: "select title,abstract,url from search.news where query=\"cat\"",
-      //   format: "json"
-      // },
-      success: function(response) {
-        console.log(response);
-      }
-
 
     }).done(function(response) {
         console.log("success");
-        console.log("response");
+        console.log(response);
+
+        //return response;
+        var $source = $('#template').html();
+        //console.log("$source:" + $source);
+        var template = Handlebars.compile($source);
+        var $templateContainer = $('#etsy-listings-container');
+        //console.log("$templateContainer:" + $templateContainer);
+        var $html = template(response.results[0]);
+        //console.log("$html: " + $html);
+        $templateContainer.innerHTML = $html;
+        console.log("$templateContainer.innerHTML: " + $templateContainer.innerHTML);
+        //console.log("response.results[0].title" + response.results[0].title);
+
 
     }).fail(function(response){
-              console.log("fail");
+        console.log("fail");
     }).always(function(response){
-              console.log("this code runs no matter what.");
+        console.log("this code runs no matter what.");
     });
 
-
+    //return response;
   } // closes ajaxCall function
+
+  function templateMaker (response, searchType) {
+
+
+  } // closes templateMaker function
 
 
 
