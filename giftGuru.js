@@ -3,22 +3,46 @@ console.log("js has loaded");
 
 var query = '';
 
+var etsyCategories = ["accessories", "art", "bags_and_purses", "bath_and_beauty", "books_and_zines", "candles",
+"ceramics_and_pottery", "children", "clothing", "dolls_and_miniatures", "crochet", "furniture", "geekery",
+"housewares", "jewelry", "music", "plants_and_edibles", "toys", "vintage", "weddings", "woodworking"]
+
+var $etsyCategoriesDropdown = $('#etsy-category-dropdown');
+for (var i = 0; i < etsyCategories.length; i +=1) {
+  var $etsyCategoryOption = $('<option class="spinner"></option>');
+  //$('body').html($('<div class="spinner"></div>'));
+  console.log($etsyCategoryOption);
+
+} // closes loop
+
+
 var $submitButton = $('#submit-btn');
 $submitButton.on("click", function() {
   console.log('button was clicked');
 
   // gets user's search input for the Etsy api:
   var $userEtsySearch = $('#user-etsy-input').val();
-  console.log($userEtsySearch);
+  //console.log($userEtsySearch);
+
+
 
   //create Etsy listings query:
-  query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage";
+  //
+  //query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=clothing";
+  //query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=jewelry";
+  //query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=home";
+  query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=entertainment";
+
   console.log(query);
   ajaxCall(query);
 
+  // clothing & shoes category: clothing
+  // jewelry category: jewelry
+  // home & living: home
+
   //create Etsy treasuries query:
   $userEtsySearch = $userEtsySearch.split(' ').shift();
-  console.log($userEtsySearch);
+  //console.log($userEtsySearch);
 
   // query = "https://openapi.etsy.com/v2/treasuries?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY;
   // console.log(query);
@@ -45,10 +69,10 @@ $submitButton.on("click", function() {
         var template = Handlebars.compile(source);
         var templateContainer = document.querySelector('#etsy-listings-container');
         //console.log("$templateContainer:" + $templateContainer);
-        var html = template(response.results[0]);
+        var html = template(response);
         //console.log("$html: " + $html);
         templateContainer.innerHTML = html;
-        console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
+        //console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
         //console.log("response.results[0].title" + response.results[0].title);
 
 

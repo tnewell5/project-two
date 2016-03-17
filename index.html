@@ -12,13 +12,23 @@
     <form class="main-form">
       <h3>Find your unique hand-crafted gift:</h3>
       <input type="text" id="user-etsy-input" placeholder="gamer gift">
+      <!-- create optional dropdown for item category: -->
+      <select id="etsy-category-dropdown">
+          <option class="habitat" value="choose-one" selected disabled>optional - choose category</option>
+          <!-- <option class="habitat" value="cave">cave</option> -->
+
+        </select>
+        <br><br>
+
       <button type="button" id="submit-btn">Submit</button>
 
       <!-- Etsy listings template: -->
       <div id="etsy-listings-container"></div>
       <script id="template" type="text/x-handlebars-template">
+        {{#each results}}
         <h3>{{title}}</h3>
         <img src='{{this.MainImage.url_75x75}}'/>
+        {{/each}}
 
 
 
