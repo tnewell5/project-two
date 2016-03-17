@@ -12,7 +12,7 @@ $submitButton.on("click", function() {
   console.log($userEtsySearch);
 
   //create Etsy listings query:
-  query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo";
+  query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage";
   console.log(query);
   ajaxCall(query);
 
@@ -40,16 +40,17 @@ $submitButton.on("click", function() {
         console.log(response);
 
         //return response;
-        var $source = $('#template').html();
+        var source = document.querySelector('#template').innerHTML;
         //console.log("$source:" + $source);
-        var template = Handlebars.compile($source);
-        var $templateContainer = $('#etsy-listings-container');
+        var template = Handlebars.compile(source);
+        var templateContainer = document.querySelector('#etsy-listings-container');
         //console.log("$templateContainer:" + $templateContainer);
-        var $html = template(response.results[0]);
+        var html = template(response.results[0]);
         //console.log("$html: " + $html);
-        $templateContainer.innerHTML = $html;
-        console.log("$templateContainer.innerHTML: " + $templateContainer.innerHTML);
+        templateContainer.innerHTML = html;
+        console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
         //console.log("response.results[0].title" + response.results[0].title);
+
 
 
     }).fail(function(response){
