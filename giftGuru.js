@@ -5,33 +5,38 @@ var query = '';
 
 var etsyCategories = ["accessories", "art", "bags_and_purses", "bath_and_beauty", "books_and_zines", "candles",
 "ceramics_and_pottery", "children", "clothing", "dolls_and_miniatures", "crochet", "furniture", "geekery",
-"housewares", "jewelry", "music", "plants_and_edibles", "toys", "vintage", "weddings", "woodworking"]
+"housewares", "jewelry", "music", "plants_and_edibles", "toys", "vintage", "weddings", "woodworking"];
 
-var $etsyCategoriesDropdown = $('#etsy-category-dropdown');
+var etsyCategoriesDropdown = document.querySelector('#etsy-category-dropdown');
 for (var i = 0; i < etsyCategories.length; i +=1) {
-  var $etsyCategoryOption = $('<option class="spinner"></option>');
-  //$('body').html($('<div class="spinner"></div>'));
-  console.log($etsyCategoryOption);
+  var etsyCategoryOption = document.createElement('option');
+  etsyCategoryOption.id = etsyCategories[i];
+  etsyCategoryOption.value = etsyCategories[i];
+  etsyCategoryOption.innerText = etsyCategories[i];
+  etsyCategoriesDropdown.appendChild(etsyCategoryOption);
+  //console.log(etsyCategoryOption);
 
 } // closes loop
 
 
 var $submitButton = $('#submit-btn');
 $submitButton.on("click", function() {
-  console.log('button was clicked');
+  //console.log('button was clicked');
 
   // gets user's search input for the Etsy api:
   var $userEtsySearch = $('#user-etsy-input').val();
+  var userEtsyCategory = etsyCategoriesDropdown.value;
+  console.log(userEtsyCategory);
   //console.log($userEtsySearch);
 
 
 
   //create Etsy listings query:
-  //
+
   //query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=clothing";
   //query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=jewelry";
   //query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=home";
-  query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=entertainment";
+  query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=" + userEtsyCategory;
 
   console.log(query);
   ajaxCall(query);
