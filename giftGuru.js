@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 console.log("js has loaded");
 
 var query = '';
+var queryType = '';
 
 var etsyCategories = ["accessories", "art", "bags_and_purses", "bath_and_beauty", "books_and_zines", "candles",
 "ceramics_and_pottery", "children", "clothing", "dolls_and_miniatures", "crochet", "furniture", "geekery",
@@ -33,20 +34,19 @@ $submitButton.on("click", function() {
 
   //create Etsy listings query:
   query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=" + userEtsyCategory + "&limit=5";
-
+  queryType = "listings";
   console.log(query);
-  ajaxCall(query);
-
-  // clothing & shoes category: clothing
-  // jewelry category: jewelry
-  // home & living: home
+  ajaxCall(query, queryType);
 
   //create Etsy treasuries query:
   $userEtsySearch = $userEtsySearch.split(' ').shift();
-  //console.log($userEtsySearch);
+  query = "https://openapi.etsy.com/v2/treasuries?keywords=%22red%22&api_key=" + ETSY_KEY;
+  query = "https://openapi.etsy.com/v2/treasuries?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY;
+  queryType = "treasuries";
+  console.log(query);
+  ajaxCall(query, queryType);
 
-  // query = "https://openapi.etsy.com/v2/treasuries?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY;
-  // console.log(query);
+
 
   //create events query:
 
@@ -54,7 +54,7 @@ $submitButton.on("click", function() {
 
   //pass responses into handlebars function and print to the screen
 
-  function ajaxCall (query) {
+  function ajaxCall (query, queryType) {
     $.ajax({
       url: query,
       // jsonp: "callback",
@@ -65,16 +65,21 @@ $submitButton.on("click", function() {
         console.log(response);
 
         //return response;
-        var source = document.querySelector('#template').innerHTML;
-        //console.log("$source:" + $source);
-        var template = Handlebars.compile(source);
-        var templateContainer = document.querySelector('#etsy-listings-container');
-        //console.log("$templateContainer:" + $templateContainer);
-        var html = template(response);
-        //console.log("$html: " + $html);
-        templateContainer.innerHTML = html;
-        //console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
-        //console.log("response.results[0].title" + response.results[0].title);
+        if (queryType === "listings") {
+          var source = document.querySelector('#template').innerHTML;
+          //console.log("$source:" + $source);
+          var template = Handlebars.compile(source);
+          var templateContainer = document.querySelector('#etsy-listings-container');
+          //console.log("$templateContainer:" + $templateContainer);
+          var html = template(response);
+          //console.log("$html: " + $html);
+          templateContainer.innerHTML = html;
+          //console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
+          //console.log("response.results[0].title" + response.results[0].title);
+        } // closes if stmt
+        else if (queryType === "treasuries") {
+          
+        }
 
 
 
