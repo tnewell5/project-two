@@ -18,31 +18,37 @@
         <input type="text" id="user-etsy-input" placeholder="sloth necklace">
         <!-- create optional dropdown for item category: -->
         <select id="etsy-category-dropdown">
-            <option class="habitat" value="choose-one" selected disabled>optional - choose category</option>
-            <!-- <option class="habitat" value="cave">cave</option> -->
+            <option value="any-category" selected disabled>optional - choose category</option>
+            <option value="any-category">all categories</option>
 
           </select>
 
 
         <button type="button" id="submit-btn">Submit</button>
 
+        <h2>Gift Ideas</h2>
         <!-- Etsy listings template: -->
         <div id="etsy-listings-container"></div>
         <script id="template" type="text/x-handlebars-template">
           {{#each results}}
           <h4>{{title}}</h4>
-          <a href="{{url}}">{{url}}</a>
+          <a href={{url}} target="blank">View in Etsy Shop!</a>
           <br>
           <img src='{{this.MainImage.url_75x75}}'/>
           {{/each}}
+
         </script>
       </form>
     </div>
     <div id="container-two">
+      <h2>Inspirations</h2>
       <div id="etsy-treasuries-container"></div>
       <script id="treasuries-template" type="text/x-handlebars-template">
-        <h4>{{title}}</h4>
-        
+        <h4>{{results.0.title}}</h4>
+        {{#each results.0.listings}}
+        <img src='{{this.data.image_url_75x75}}'/>
+        {{/each}}
+
       </script>
 
     </div>
