@@ -4,6 +4,11 @@ console.log("js has loaded");
 var query = '';
 var queryType = '';
 var userEtsyCategory = "choose-one";
+var etsyTreasuries = {
+  treasury1: null,
+  treasury2: null,
+  treasury3: null
+}
 
 var etsyCategories = ["accessories", "art", "bags_and_purses", "bath_and_beauty", "books_and_zines", "candles",
 "ceramics_and_pottery", "children", "clothing", "dolls_and_miniatures", "crochet", "furniture", "geekery",
@@ -31,14 +36,12 @@ $submitButton.on("click", function() {
   console.log("userEtsyCategory: " + userEtsyCategory);
   //console.log($userEtsySearch);
 
-
-
   //create Etsy listings query:
   if (userEtsyCategory !== "any-category") {
     query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=" + userEtsyCategory + "&limit=5";
   }
   else {
-    console.log('working');
+    //console.log('working');
     query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage" + "&limit=5";
   }
   queryType = "listings";
@@ -71,6 +74,12 @@ $submitButton.on("click", function() {
         console.log("success");
         console.log(response);
 
+        var giftIdeasH2 = document.querySelector('#gift-ideas');
+        console.log("giftIdeasH2: " + giftIdeasH2);
+        giftIdeasH2.classList.remove('hidden');
+        var inspirationsH2 = document.querySelector('#inspirations');
+        inspirationsH2.classList.remove('hidden');
+
         //return response;
         if (queryType === "listings") {
           var source = document.querySelector('#template').innerHTML;
@@ -90,8 +99,29 @@ $submitButton.on("click", function() {
           var templateContainer = document.querySelector('#etsy-treasuries-container');
           var html = template(response);
           templateContainer.innerHTML = html;
-        }
 
+          var treasuryListingIDs = [];
+          for (var i = 0; i < 16; i +=1) {
+            treasuryListingIDs.push(response.results[0].listings[i].data.listing_id);
+            //query = "https://openapi.etsy.com/v2/listings/223233914.js?&api_key=" + ETSY_KEY + "&callback=foo";
+            query = "https://openapi.etsy.com/v2/listings/" + treasuryListingIDs[i] + ".js?&api_key=" + ETSY_KEY + "&callback=foo";
+            queryType = "treasury-listings";
+            // call ajax recursively
+
+          }
+          console.log("treasuryListingIDs: " + treasuryListingIDs);
+
+          // if user clicks on any treasury picture, store "listing_id": 272188358, send ajax request
+          // store the listing_id values for all listings in treasury in array
+          // in for loop:
+          // populate query string and send ajax request, build new array with corresponding url
+          // add clickable links to treasury images
+
+        } // closes else if for queryType === treasuries
+
+        else if (queryType === "treasury-listings") {
+          // add clickable links to existing treasury images
+        }
 
 
     }).fail(function(response){

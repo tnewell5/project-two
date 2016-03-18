@@ -16,7 +16,25 @@ a {
 
 h4 {
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
+}
+
+h3 {
+  margin: 0;
+}
+
+h2 {
+  /*text-align: center;*/
+  margin: 0;
+  margin-top: 10px;
+}
+
+h1 {
+  padding-left: 10px;
+}
+
+.main-form {
+  padding-left: 10px;
 }
 
 #flex-container {
@@ -32,7 +50,19 @@ h4 {
 }
 
 #container-two {
-  width: 400px;
+  width: 360px;
   background-color: lightyellow;
   height: 1000px;
+}
+
+#etsy-treasuries-container {
+  padding-left: 25px;
+}
+
+#inspirations {
+  padding-left: 25px;
+}
+
+.hidden {
+  visibility: hidden;
 }
