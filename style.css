@@ -1,10 +1,38 @@
 body {
   font-family: papyrus;
   background: lightgray;
+  margin: 0;
 }
 
 #user-etsy-input {
   width: 180px;
   height: 20px;
   border-radius: 4px;
+}
+
+a {
+  font-size: 12px;
+}
+
+h4 {
+  margin: 0;
+  font-size: 12px;
+}
+
+#flex-container {
+  display: flex;
+  flex-direction: row;
+  width: 1000px;
+}
+
+#container-one {
+  width: 600px;
+  background-color: lightblue;
+  height: 1000px;
+}
+
+#container-two {
+  width: 400px;
+  background-color: lightyellow;
+  height: 1000px;
 }

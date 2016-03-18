@@ -7,39 +7,41 @@
     <title>giftGuru</title>
   </head>
   <body>
-    <h1>Gift Guru</h1>
-
-    <form class="main-form">
-      <h3>Find your unique hand-crafted gift:</h3>
-      <input type="text" id="user-etsy-input" placeholder="sloth necklace">
-      <!-- create optional dropdown for item category: -->
-      <select id="etsy-category-dropdown">
-          <option class="habitat" value="choose-one" selected disabled>optional - choose category</option>
-          <!-- <option class="habitat" value="cave">cave</option> -->
-
-        </select>
 
 
-      <button type="button" id="submit-btn">Submit</button>
+    <div id="flex-container">
 
-      <!-- Etsy listings template: -->
-      <div id="etsy-listings-container"></div>
-      <script id="template" type="text/x-handlebars-template">
-        {{#each results}}
-        <h3>{{title}}</h3>
-        <img src='{{this.MainImage.url_75x75}}'/>
-        <a href="{{url}}">{{url}}</a>
+    <div id="container-one">
+      <h1>Gift Guru</h1>
+      <form class="main-form">
+        <h3>Find your unique hand-crafted gift:</h3>
+        <input type="text" id="user-etsy-input" placeholder="sloth necklace">
+        <!-- create optional dropdown for item category: -->
+        <select id="etsy-category-dropdown">
+            <option class="habitat" value="choose-one" selected disabled>optional - choose category</option>
+            <!-- <option class="habitat" value="cave">cave</option> -->
 
-
-        {{/each}}
-
-
-
-      </script>
+          </select>
 
 
-    </form>
+        <button type="button" id="submit-btn">Submit</button>
 
+        <!-- Etsy listings template: -->
+        <div id="etsy-listings-container"></div>
+        <script id="template" type="text/x-handlebars-template">
+          {{#each results}}
+          <h4>{{title}}</h4>
+          <a href="{{url}}">{{url}}</a>
+          <br>
+          <img src='{{this.MainImage.url_75x75}}'/>
+          {{/each}}
+        </script>
+      </form>
+    </div>
+    <div id="container-two">
+      
+    </div>
+  </div>
 
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
