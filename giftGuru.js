@@ -54,7 +54,10 @@ $submitButton.on("click", function() {
   query = "https://openapi.etsy.com/v2/treasuries.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo";
   queryType = "treasuries";
   console.log(query);
+
   ajaxCall(query, queryType);
+  // can i separate ajaxCall function from template creator function?
+  
 
 
 

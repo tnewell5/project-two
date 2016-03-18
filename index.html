@@ -32,9 +32,9 @@
         <script id="template" type="text/x-handlebars-template">
           {{#each results}}
           <h4>{{title}}</h4>
-          <a href={{url}} target="blank">View in Etsy Shop!</a>
+          <a href={{url}} target="blank"><img src='{{this.MainImage.url_75x75}}'/></a>
           <br>
-          <img src='{{this.MainImage.url_75x75}}'/>
+
           {{/each}}
 
         </script>
