@@ -4,11 +4,8 @@ console.log("js has loaded");
 var query = '';
 var queryType = '';
 var userEtsyCategory = "choose-one";
-var etsyTreasuries = {
-  treasury1: null,
-  treasury2: null,
-  treasury3: null
-}
+var etsyTreasuriesObj = {};
+var etsyListingsObj = {};
 
 var etsyCategories = ["accessories", "art", "bags_and_purses", "bath_and_beauty", "books_and_zines", "candles",
 "ceramics_and_pottery", "children", "clothing", "dolls_and_miniatures", "crochet", "furniture", "geekery",
@@ -41,31 +38,28 @@ $submitButton.on("click", function() {
     query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=" + userEtsyCategory + "&limit=5";
   }
   else {
-    //console.log('working');
     query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage" + "&limit=5";
   }
   queryType = "listings";
   console.log(query);
   ajaxCall(query, queryType);
 
+
   //create Etsy treasuries query:
-  $userEtsySearch = $userEtsySearch.split(' ').shift();
-  //query = "https://openapi.etsy.com/v2/treasuries?keywords=%22red%22&api_key=" + ETSY_KEY;
-  query = "https://openapi.etsy.com/v2/treasuries.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo";
-  queryType = "treasuries";
-  console.log(query);
-
-  ajaxCall(query, queryType);
+  // $userEtsySearch = $userEtsySearch.split(' ').shift();
+  // //query = "https://openapi.etsy.com/v2/treasuries?keywords=%22red%22&api_key=" + ETSY_KEY;
+  // query = "https://openapi.etsy.com/v2/treasuries.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo";
+  // queryType = "treasuries";
+  // console.log(query);
+  //
+  // ajaxCall(query, queryType);
   // can i separate ajaxCall function from template creator function?
-  
+  // this will allow me to make all the calls and build a treasury object before printing treasury template
+  // this would help with clickable images creation
 
 
-
-  //create events query:
-
-  //make 3 ajax calls, passing in unique queries and returning responses
-
-  //pass responses into handlebars function and print to the screen
+  //create events query, create ajax calls, etc
+  // code here
 
   function ajaxCall (query, queryType) {
     $.ajax({
@@ -77,90 +71,87 @@ $submitButton.on("click", function() {
         console.log("success");
         console.log(response);
 
-        var giftIdeasH2 = document.querySelector('#gift-ideas');
-        console.log("giftIdeasH2: " + giftIdeasH2);
-        giftIdeasH2.classList.remove('hidden');
-        var inspirationsH2 = document.querySelector('#inspirations');
-        inspirationsH2.classList.remove('hidden');
-
-        //return response;
+        // build global object inside of ajaxCall:
         if (queryType === "listings") {
-          var source = document.querySelector('#template').innerHTML;
-          //console.log("$source:" + $source);
-          var template = Handlebars.compile(source);
-          var templateContainer = document.querySelector('#etsy-listings-container');
-          //console.log("$templateContainer:" + $templateContainer);
-          var html = template(response);
-          //console.log("$html: " + $html);
-          templateContainer.innerHTML = html;
-          //console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
-          //console.log("response.results[0].title" + response.results[0].title);
-        } // closes if stmt
-        else if (queryType === "treasuries") {
-          var source = document.querySelector('#treasuries-template').innerHTML;
-          var template = Handlebars.compile(source);
-          var templateContainer = document.querySelector('#etsy-treasuries-container');
-          var html = template(response);
-          templateContainer.innerHTML = html;
-
-          var treasuryListingIDs = [];
-          for (var i = 0; i < 16; i +=1) {
-            treasuryListingIDs.push(response.results[0].listings[i].data.listing_id);
-            //query = "https://openapi.etsy.com/v2/listings/223233914.js?&api_key=" + ETSY_KEY + "&callback=foo";
-            query = "https://openapi.etsy.com/v2/listings/" + treasuryListingIDs[i] + ".js?&api_key=" + ETSY_KEY + "&callback=foo";
-            queryType = "treasury-listings";
-            // call ajax recursively
-
-          }
-          console.log("treasuryListingIDs: " + treasuryListingIDs);
-
-          // if user clicks on any treasury picture, store "listing_id": 272188358, send ajax request
-          // store the listing_id values for all listings in treasury in array
-          // in for loop:
-          // populate query string and send ajax request, build new array with corresponding url
-          // add clickable links to treasury images
-
-        } // closes else if for queryType === treasuries
-
-        else if (queryType === "treasury-listings") {
-          // add clickable links to existing treasury images
+          buildObject(response, queryType);
+          templateMaker(etsyListingsObj, queryType);
         }
-
 
     }).fail(function(response){
         console.log("fail");
     }).always(function(response){
         console.log("this code runs no matter what.");
     });
-
-    //return response;
   } // closes ajaxCall function
 
-  function templateMaker (response, searchType) {
 
+
+  function buildObject(response, type) {
+    // response is returned from ajax call and type is the object type
+    // function returns new object
+    if (type === "listings") {
+      etsyListingsObj = response;
+    }
+
+  } // closes buildObject function
+
+  function templateMaker (object, queryType) {
+    console.log("templateMaker takes in object: " + object);
+    console.log("templateMaker takes in queryType: " + queryType);
+
+    var giftIdeasH2 = document.querySelector('#gift-ideas');
+    console.log("giftIdeasH2: " + giftIdeasH2);
+    giftIdeasH2.classList.remove('hidden');
+    var inspirationsH2 = document.querySelector('#inspirations');
+    inspirationsH2.classList.remove('hidden');
+
+    //return response;
+    if (queryType === "listings") {
+      var source = document.querySelector('#template').innerHTML;
+      //console.log("$source:" + $source);
+      var template = Handlebars.compile(source);
+      var templateContainer = document.querySelector('#etsy-listings-container');
+      //console.log("$templateContainer:" + $templateContainer);
+      var html = template(object);
+      //console.log("$html: " + $html);
+      templateContainer.innerHTML = html;
+      //console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
+      //console.log("response.results[0].title" + response.results[0].title);
+    } // closes if stmt
+    else if (queryType === "treasuries") {
+      var source = document.querySelector('#treasuries-template').innerHTML;
+      var template = Handlebars.compile(source);
+      var templateContainer = document.querySelector('#etsy-treasuries-container');
+      var html = template(response);
+      templateContainer.innerHTML = html;
+
+      var treasuryListingIDs = [];
+      for (var i = 0; i < 16; i +=1) {
+        treasuryListingIDs.push(response.results[0].listings[i].data.listing_id);
+        //query = "https://openapi.etsy.com/v2/listings/223233914.js?&api_key=" + ETSY_KEY + "&callback=foo";
+        query = "https://openapi.etsy.com/v2/listings/" + treasuryListingIDs[i] + ".js?&api_key=" + ETSY_KEY + "&callback=foo";
+        queryType = "treasury-listings";
+        // call ajax recursively
+
+      }
+      console.log("treasuryListingIDs: " + treasuryListingIDs);
+
+      // if user clicks on any treasury picture, store "listing_id": 272188358, send ajax request
+      // store the listing_id values for all listings in treasury in array
+      // in for loop:
+      // populate query string and send ajax request, build new array with corresponding url
+      // add clickable links to treasury images
+
+    } // closes else if for queryType === treasuries
+
+    else if (queryType === "treasury-listings") {
+      // add clickable links to existing treasury images
+    }
 
   } // closes templateMaker function
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 }) // closes $submitButton eventListener
-
-
-
-
-
 
 
 
