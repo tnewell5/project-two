@@ -84,8 +84,6 @@ $submitButton.on("click", function() {
   } // closes buildListingsObj function
 
 
-
-
   function templateMaker (object, queryType) {
     //console.log("templateMaker takes in object: " + object);
     //console.log("templateMaker takes in queryType: " + queryType);
@@ -93,8 +91,8 @@ $submitButton.on("click", function() {
     var giftIdeasH2 = document.querySelector('#gift-ideas');
     //console.log("giftIdeasH2: " + giftIdeasH2);
     giftIdeasH2.classList.remove('hidden');
-    // var inspirationsH2 = document.querySelector('#inspirations');
-    // inspirationsH2.classList.remove('hidden');
+    var savedIdeas = document.querySelector('#saved-h2');
+    savedIdeas.classList.remove('hidden');
 
     //return response;
     if (queryType === "listings") {
@@ -106,12 +104,41 @@ $submitButton.on("click", function() {
       var html = template(object);
       //console.log("$html: " + $html);
       templateContainer.innerHTML = html;
+
+      var listingsArray = document.querySelectorAll('.listing');
+      console.log("listingsArray: ");
+      console.log(listingsArray);
+      for (var i = 0; i < listingsArray.length; i += 1) {
+        listingsArray[i].addEventListener("dragend", saveEtsyItem);
+      } // closes for loop
+
       //console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
       //console.log("response.results[0].title" + response.results[0].title);
     } // closes if stmt
-
-
   } // closes templateMaker function
+
+  // colorDiv.addEventListener("click", saveColor);
+  //
+  // var saveColor = function(event) {
+  // colorContainerDiv.removeChild(event.target);
+  // savedColorsDiv.appendChild(event.target);
+  // event.target.removeEventListener("click", saveColor);
+  // }
+
+  var saveEtsyItem = function(event) {
+
+    var listingsParent = document.querySelector(".listings-span");
+    console.log("listingsParent: ");
+    console.log(listingsParent);
+    console.log("event.target.parentNode ");
+    console.log(event.target.parentNode);
+    var imgParentAnchor = event.target.parentNode;
+    imgParentAnchor.parentNode.removeChild(imgParentAnchor);
+
+    var savedContainer = document.querySelector("#saved-container");
+    savedContainer.appendChild(event.target.parentNode);
+    event.target.removeEventListener("dragend", saveEtsyItem);
+  } // closes saveEtsyItem function
 
 
 }) // closes $submitButton eventListener

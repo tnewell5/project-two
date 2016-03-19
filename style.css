@@ -46,20 +46,20 @@ h1 {
 #container-one {
   width: 600px;
   background-color: lightblue;
-  height: 1000px;
+  height: 650px;
 }
 
 #container-two {
   width: 360px;
   background-color: lightyellow;
-  height: 1000px;
+  height: 650px;
 }
 
-#etsy-treasuries-container {
-  padding-left: 25px;
+#gift-ideas {
+  padding-left: 10px;
 }
 
-#inspirations {
+#saved-h2 {
   padding-left: 25px;
 }
 
