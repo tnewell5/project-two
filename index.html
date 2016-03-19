@@ -31,8 +31,9 @@
         <div id="etsy-listings-container"></div>
         <script id="template" type="text/x-handlebars-template">
           {{#each results}}
-          <h4>{{title}}</h4>
-          <a href={{url}} target="blank"><img src='{{this.MainImage.url_75x75}}'/></a>
+          <span>
+            <a href={{url}} target="blank"><img src='{{this.MainImage.url_75x75}}'/></a>
+          </span>
           <br>
 
           {{/each}}
@@ -41,9 +42,9 @@
       </form>
     </div>
     <div id="container-two">
-      <h2 id="inspirations" class="hidden">Inspirations</h2>
-      <div id="etsy-treasuries-container"></div>
-      <script id="treasuries-template" type="text/x-handlebars-template">
+      <h2 id="Gift Ideas Pinboard" class="hidden">Inspirations</h2>
+      <div id="ideas-container"></div>
+      <script id="ideas-template" type="text/x-handlebars-template">
         <h4>{{results.0.title}}</h4>
         {{#each results.0.listings}}
         <img src='{{this.data.image_url_75x75}}'/>
