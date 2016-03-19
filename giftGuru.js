@@ -62,6 +62,7 @@ $submitButton.on("click", function() {
   // code here
 
   function ajaxCall (query, queryType) {
+    var ajaxCallResponse;
     $.ajax({
       url: query,
       // jsonp: "callback",
@@ -73,47 +74,61 @@ $submitButton.on("click", function() {
 
         // build global object inside of ajaxCall:
         if (queryType === "listings") {
-          var etsyListingsObj = buildObject(response, queryType); // returns etsyListingsObj
+          var etsyListingsObj = buildListingsObj(response); // returns etsyListingsObj
           templateMaker(etsyListingsObj, queryType);
         }
         else if (queryType === "treasury") {
-          var etsyTreasuryObj = buildObject(response, queryType); // returns etsyTreasuryObj
+          var etsyTreasuryObj = buildTreasuryObj(response); // returns etsyTreasuryObj
         }
+        // else if (queryType === "treasury-listings") {
+        //   //etsyTreasuryObj = buildObject(response, queryType); // returns etsyTreasuryObj
+        //   ajaxCallResponse = response;
+        // }
 
     }).fail(function(response){
         console.log("fail");
     }).always(function(response){
         console.log("this code runs no matter what.");
     });
+    console.log("ajaxCallResponse");
+    console.log(ajaxCallResponse);
+    window.ajaxCallResponse = ajaxCallResponse;
+    return ajaxCallResponse;
   } // closes ajaxCall function
 
-  function buildObject(response, type) {
-    // response is returned from ajax call and type is the object type
-    // function returns new object
+  // takes in response from ajax call and returns new object:
+  function buildListingsObj(response) {
+    var etsyListingsObj = response;
+    return etsyListingsObj;
+  } // closes buildListingsObj function
 
-    if (type === "listings") {
-      var etsyListingsObj = response;
-      return etsyListingsObj;
-    }
-    else if (type === "treasury") {
-      var etsyTreasuryObj = {
-        title: response.results[0].title,
-        treasuryListingsIDs: [],
-        treasuryListingsQueries: []
-      };
-      for (var i = 0; i < 16; i +=1) {
-        //build array IDs of listings in treasury:
-        etsyTreasuryObj.treasuryListingsIDs.push(response.results[0].listings[i].data.listing_id);
-        //query = "https://openapi.etsy.com/v2/listings/223233914.js?&api_key=" + ETSY_KEY + "&callback=foo";
-        //build array of queries for treasury listings:
-        etsyTreasuryObj.treasuryListingsQueries.push("https://openapi.etsy.com/v2/listings/" + etsyTreasuryObj.treasuryListingsIDs[i] + ".js?&api_key=" + ETSY_KEY + "&callback=foo");
-      } // closes for loop
-      console.log(etsyTreasuryObj);
-      //queryType = "treasury-listings";
-      return etsyTreasuryObj;
-    } // closes else if type treasury
+  // takes in response from ajax call and returns new object:
+  function buildTreasuryObj(response) {
+    var etsyTreasuryObj = {
+      title: response.results[0].title,
+      treasuryListingsIDs: [],
+      treasuryListingsQueries: [],
+      treasuryListingsUrls: []
+    }; // closes etsyTreasuryObj
+    for (var i = 0; i < 16; i +=1) {
+      //build array IDs of listings in treasury:
+      etsyTreasuryObj.treasuryListingsIDs.push(response.results[0].listings[i].data.listing_id);
+      //build array of queries for treasury listings:
+      etsyTreasuryObj.treasuryListingsQueries.push("https://openapi.etsy.com/v2/listings/" + etsyTreasuryObj.treasuryListingsIDs[i] + ".js?&api_key=" + ETSY_KEY + "&callback=foo");
+    } // closes for loop
+    return etsyTreasuryObj;
+  } // closes buildTreasuryObj function
 
-  } // closes buildObject function
+      // type = "treasury-listings";
+      // for (var k = 0; k < etsyTreasuryObj.treasuryListingsQueries.length; k += 1) {
+      //   var response = ajaxCall(etsyTreasuryObj.treasuryListingsQueries[k], type);
+      //   console.log("response:");
+      //   console.log(response);
+      //   etsyTreasuryObj.treasuryListingsUrls.push(response.results[0].url);
+      // }
+      // console.log(etsyTreasuryObj);
+      // return etsyTreasuryObj;
+  //} // closes buildObject function
 
   function templateMaker (object, queryType) {
     console.log("templateMaker takes in object: " + object);
