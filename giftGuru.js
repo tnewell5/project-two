@@ -4,8 +4,8 @@ console.log("js has loaded");
 var query = '';
 var queryType = '';
 var userEtsyCategory = "choose-one";
-var etsyTreasuriesObj = {};
-var etsyListingsObj = {};
+
+
 
 var etsyCategories = ["accessories", "art", "bags_and_purses", "bath_and_beauty", "books_and_zines", "candles",
 "ceramics_and_pottery", "children", "clothing", "dolls_and_miniatures", "crochet", "furniture", "geekery",
@@ -46,13 +46,13 @@ $submitButton.on("click", function() {
 
 
   //create Etsy treasuries query:
-  // $userEtsySearch = $userEtsySearch.split(' ').shift();
-  // //query = "https://openapi.etsy.com/v2/treasuries?keywords=%22red%22&api_key=" + ETSY_KEY;
-  // query = "https://openapi.etsy.com/v2/treasuries.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo";
-  // queryType = "treasuries";
-  // console.log(query);
-  //
-  // ajaxCall(query, queryType);
+  $userEtsySearch = $userEtsySearch.split(' ').shift();
+  //query = "https://openapi.etsy.com/v2/treasuries?keywords=%22red%22&api_key=" + ETSY_KEY;
+  query = "https://openapi.etsy.com/v2/treasuries.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo";
+  queryType = "treasury";
+  console.log(query);
+
+  ajaxCall(query, queryType);
   // can i separate ajaxCall function from template creator function?
   // this will allow me to make all the calls and build a treasury object before printing treasury template
   // this would help with clickable images creation
@@ -73,8 +73,11 @@ $submitButton.on("click", function() {
 
         // build global object inside of ajaxCall:
         if (queryType === "listings") {
-          buildObject(response, queryType);
+          var etsyListingsObj = buildObject(response, queryType); // returns etsyListingsObj
           templateMaker(etsyListingsObj, queryType);
+        }
+        else if (queryType === "treasury") {
+          var etsyTreasuryObj = buildObject(response, queryType); // returns etsyTreasuryObj
         }
 
     }).fail(function(response){
@@ -84,14 +87,31 @@ $submitButton.on("click", function() {
     });
   } // closes ajaxCall function
 
-
-
   function buildObject(response, type) {
     // response is returned from ajax call and type is the object type
     // function returns new object
+
     if (type === "listings") {
-      etsyListingsObj = response;
+      var etsyListingsObj = response;
+      return etsyListingsObj;
     }
+    else if (type === "treasury") {
+      var etsyTreasuryObj = {
+        title: response.results[0].title,
+        treasuryListingsIDs: [],
+        treasuryListingsQueries: []
+      };
+      for (var i = 0; i < 16; i +=1) {
+        //build array IDs of listings in treasury:
+        etsyTreasuryObj.treasuryListingsIDs.push(response.results[0].listings[i].data.listing_id);
+        //query = "https://openapi.etsy.com/v2/listings/223233914.js?&api_key=" + ETSY_KEY + "&callback=foo";
+        //build array of queries for treasury listings:
+        etsyTreasuryObj.treasuryListingsQueries.push("https://openapi.etsy.com/v2/listings/" + etsyTreasuryObj.treasuryListingsIDs[i] + ".js?&api_key=" + ETSY_KEY + "&callback=foo");
+      } // closes for loop
+      console.log(etsyTreasuryObj);
+      //queryType = "treasury-listings";
+      return etsyTreasuryObj;
+    } // closes else if type treasury
 
   } // closes buildObject function
 
@@ -118,7 +138,7 @@ $submitButton.on("click", function() {
       //console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
       //console.log("response.results[0].title" + response.results[0].title);
     } // closes if stmt
-    else if (queryType === "treasuries") {
+    else if (queryType === "treasury") {
       var source = document.querySelector('#treasuries-template').innerHTML;
       var template = Handlebars.compile(source);
       var templateContainer = document.querySelector('#etsy-treasuries-container');
