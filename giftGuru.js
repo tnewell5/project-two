@@ -4,6 +4,7 @@ console.log("js has loaded");
 var query = '';
 var queryType = '';
 var userEtsyCategory = "choose-one";
+var containerTwo = document.querySelector('#container-two');
 
 var etsyCategories = ["accessories", "art", "bags_and_purses", "bath_and_beauty", "books_and_zines", "candles",
 "ceramics_and_pottery", "children", "clothing", "dolls_and_miniatures", "crochet", "furniture", "geekery",
@@ -41,7 +42,6 @@ $submitButton.on("click", function() {
   queryType = "listings";
   //console.log(query);
   ajaxCall(query, queryType);
-
 
 
   function ajaxCall (query, queryType) {
@@ -93,6 +93,8 @@ $submitButton.on("click", function() {
     giftIdeasH2.classList.remove('hidden');
     var savedIdeas = document.querySelector('#saved-h2');
     savedIdeas.classList.remove('hidden');
+    containerTwo.classList.remove('hidden');
+
 
     //return response;
     if (queryType === "listings") {
@@ -128,16 +130,13 @@ $submitButton.on("click", function() {
   var saveEtsyItem = function(event) {
 
     var listingsParent = document.querySelector(".listings-span");
-    console.log("listingsParent: ");
-    console.log(listingsParent);
-    console.log("event.target.parentNode ");
-    console.log(event.target.parentNode);
     var imgParentAnchor = event.target.parentNode;
     imgParentAnchor.parentNode.removeChild(imgParentAnchor);
 
     var savedContainer = document.querySelector("#saved-container");
     savedContainer.appendChild(event.target.parentNode);
     event.target.removeEventListener("dragend", saveEtsyItem);
+    imgParentAnchor.classList.add('saved-listing');
   } // closes saveEtsyItem function
 
 

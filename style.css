@@ -1,6 +1,6 @@
 body {
   font-family: papyrus;
-  background: lightgray;
+  /*background: #CFE6DA;*/
   margin: 0;
 }
 
@@ -38,6 +38,8 @@ h1 {
 }
 
 #flex-container {
+  background-image: url("mainImg.jpg");
+  background-size: cover;
   display: flex;
   flex-direction: row;
   width: 1000px;
@@ -45,14 +47,15 @@ h1 {
 
 #container-one {
   width: 600px;
-  background-color: lightblue;
+  /*background-color: lightblue;*/
   height: 650px;
 }
 
 #container-two {
   width: 360px;
-  background-color: lightyellow;
+  /*background-color: lightyellow;*/
   height: 650px;
+  padding-left: 10px;
 }
 
 #gift-ideas {
@@ -60,9 +63,17 @@ h1 {
 }
 
 #saved-h2 {
-  padding-left: 25px;
+  /*padding-left: 25px;*/
+}
+
+#etsy-listings-container {
+  padding-left: 10px;
 }
 
 .hidden {
   visibility: hidden;
+}
+
+.saved-listing {
+  padding-right: 10px;
 }
