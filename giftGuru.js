@@ -22,23 +22,19 @@ for (var i = 0; i < etsyCategories.length; i +=1) {
 
 } // closes loop
 
-
 var $submitButton = $('#submit-btn');
 $submitButton.on("click", function() {
-  //console.log('button was clicked');
 
   // gets user's search input for the Etsy api:
   var $userEtsySearch = $('#user-etsy-input').val();
   userEtsyCategory = etsyCategoriesDropdown.value;
-  //console.log("userEtsyCategory: " + userEtsyCategory);
-  //console.log($userEtsySearch);
 
   //create Etsy listings query:
   if (userEtsyCategory !== "any-category") {
-    query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage"+"&category=" + userEtsyCategory + "&limit=35";
+    query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&includes=MainImage"+"&category=" + userEtsyCategory + "&limit=28";
   }
   else {
-    query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&callback=foo" + "&includes=MainImage" + "&limit=35";
+    query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&includes=MainImage" + "&limit=28";
   }
   queryType = "listings";
   //console.log(query);
@@ -49,7 +45,6 @@ $submitButton.on("click", function() {
     var ajaxCallResponse;
     $.ajax({
       url: query,
-      // jsonp: "callback",
       dataType: 'jsonp',
 
     }).done(function(response) {
@@ -62,22 +57,12 @@ $submitButton.on("click", function() {
           containerOne.style.background = '#CFE6DA';
           containerTwo.style.background = '#DFBA9D';
           templateMaker(etsyListingsObj, queryType);
-
         }
-        // else if (queryType === "events") {
-        //   etsyTreasuryObj = buildTreasuryObj(response); // returns etsyTreasuryObj
-        //   queryType = "treasury-listings";
-        //   console.log( "line 86, etsyTreasuryObj: ");
-        //   console.log( etsyTreasuryObj);
-        // }
-
-
     }).fail(function(response){
         console.log("fail");
     }).always(function(response){
         console.log("this code runs no matter what.");
     });
-
   } // closes ajaxCall function
 
   // takes in response from ajax call and returns new object:
@@ -86,49 +71,26 @@ $submitButton.on("click", function() {
     return etsyListingsObj;
   } // closes buildListingsObj function
 
-
   function templateMaker (object, queryType) {
-    //console.log("templateMaker takes in object: " + object);
-    //console.log("templateMaker takes in queryType: " + queryType);
-
     var giftIdeasH2 = document.querySelector('#gift-ideas');
-    //console.log("giftIdeasH2: " + giftIdeasH2);
     giftIdeasH2.classList.remove('hidden');
     var savedIdeas = document.querySelector('#saved-h2');
     savedIdeas.classList.remove('hidden');
     containerTwo.classList.remove('hidden');
 
-
-    //return response;
     if (queryType === "listings") {
       var source = document.querySelector('#template').innerHTML;
-      //console.log("$source:" + $source);
       var template = Handlebars.compile(source);
       var templateContainer = document.querySelector('#etsy-listings-container');
-      //console.log("$templateContainer:" + $templateContainer);
       var html = template(object);
-      //console.log("$html: " + $html);
       templateContainer.innerHTML = html;
 
       var listingsArray = document.querySelectorAll('.listing');
-      console.log("listingsArray: ");
-      console.log(listingsArray);
       for (var i = 0; i < listingsArray.length; i += 1) {
         listingsArray[i].addEventListener("dragend", saveEtsyItem);
       } // closes for loop
-
-      //console.log("templateContainer.innerHTML: " + templateContainer.innerHTML);
-      //console.log("response.results[0].title" + response.results[0].title);
     } // closes if stmt
   } // closes templateMaker function
-
-  // colorDiv.addEventListener("click", saveColor);
-  //
-  // var saveColor = function(event) {
-  // colorContainerDiv.removeChild(event.target);
-  // savedColorsDiv.appendChild(event.target);
-  // event.target.removeEventListener("click", saveColor);
-  // }
 
   var saveEtsyItem = function(event) {
 
@@ -141,9 +103,65 @@ $submitButton.on("click", function() {
     event.target.removeEventListener("dragend", saveEtsyItem);
     imgParentAnchor.classList.add('saved-listing');
   } // closes saveEtsyItem function
-
-
 }) // closes $submitButton eventListener
+
+// code block for events search:
+query = '';
+
+var eventDatesArr = ["future", "today", "this week", "next week"];
+var eventWithinMilesArr = [1, 2, 5, 10];
+var eventCategoriesArr = ["music", "comedy", "learning_education", "family_fun_kids", "festivals_parades",
+  "movies_film", "food", "art", "books", "attractions", "community", "singles_social", "outdoors_recreation",
+  "performing_arts", "animals", "science", "sports", "technology", "other"];
+
+//populate event dates with values:
+var eventDateDropdown = document.querySelector('#event-date-dropdown');
+for (var i = 0; i < eventDatesArr.length; i += 1) {
+  var dateOption = document.createElement('option');
+  dateOption.value = eventDatesArr[i];
+  dateOption.innerText = eventDatesArr[i];
+  eventDateDropdown.appendChild(dateOption);
+}
+
+//populate event categories with values:
+var eventCategoryDropdown = document.querySelector('#event-category-dropdown');
+for (var j = 0; j < eventCategoriesArr.length; j += 1) {
+  var categoryOption = document.createElement('option');
+  categoryOption.value = eventCategoriesArr[j];
+  categoryOption.innerText = eventCategoriesArr[j];
+  eventCategoryDropdown.appendChild(categoryOption);
+}
+
+//add event listener to submit button:
+var submitButton2 = document.querySelector('#submit-btn2');
+submitButton2.addEventListener('click', function() {
+  console.log("button 2 was clicked!");
+
+  var userLocationSearch = document.querySelector('#user-eventLoc-input').value;
+  var userDistance = document.querySelector('#event-distance-dropdown').value;
+  var userDates = document.querySelector('#event-date-dropdown').value;
+  var userCategory = document.querySelector('#event-category-dropdown').value;
+
+  // build up query strings:
+  query = "http://api.eventful.com/json/events/search?category=" + userCategory + "&location=" + userLocationSearch + "&date=" + userDates + "&within=" + userDistance + "&app_key=" + EVENTFUL_KEY;
+  console.log(query);
+
+  // make ajax call:
+  $.ajax({
+    url: query,
+    dataType: 'jsonp'
+
+  }).done(function(response){
+    console.log("success");
+    console.log(response);
+
+  }).fail(function(response){
+
+  }).always(function(response){
+
+  });
+
+}); // closes submitButton2 eventListener
 
 
 

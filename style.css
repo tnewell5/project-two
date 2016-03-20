@@ -6,8 +6,15 @@ body {
 
 #user-etsy-input {
   width: 115px;
-  height: 20px;
+  height: 17px;
   border-radius: 4px;
+}
+
+#user-eventLoc-input {
+  width: 115px;
+  height: 17px;
+  border-radius: 4px;
+
 }
 
 a {
