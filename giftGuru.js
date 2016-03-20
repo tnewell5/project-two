@@ -55,9 +55,9 @@ $submitButton.on("click", function() {
         if (queryType === "listings") {
           var etsyListingsObj = buildListingsObj(response); // returns etsyListingsObj
           containerOne.style.background = '#CFE6DA';
-          containerOne.classList.add('height');
+          // containerOne.classList.add('height');
           containerTwo.style.background = '#DFBA9D';
-          containerTwo.classList.add('height');
+          // containerTwo.classList.add('height');
           templateMaker(etsyListingsObj, queryType);
         }
     }).fail(function(response){
@@ -74,8 +74,8 @@ $submitButton.on("click", function() {
   } // closes buildListingsObj function
 
   function templateMaker (object, queryType) {
-    var giftIdeasH2 = document.querySelector('#gift-ideas');
-    giftIdeasH2.classList.remove('hidden');
+    // var giftIdeasH2 = document.querySelector('#gift-ideas');
+    // giftIdeasH2.classList.remove('hidden');
     var savedIdeas = document.querySelector('#saved-h2');
     savedIdeas.classList.remove('hidden');
     containerTwo.classList.remove('hidden');
@@ -173,8 +173,8 @@ submitButton2.addEventListener('click', function() {
   });
 
   function templateMakerEvents(object) {
-    var giftIdeasH2 = document.querySelector('#gift-ideas');
-    giftIdeasH2.classList.remove('hidden');
+    // var giftIdeasH2 = document.querySelector('#gift-ideas');
+    // giftIdeasH2.classList.remove('hidden');
     var savedIdeas = document.querySelector('#saved-h2');
     savedIdeas.classList.remove('hidden');
     containerTwo.classList.remove('hidden');
