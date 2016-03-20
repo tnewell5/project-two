@@ -4,6 +4,7 @@ console.log("js has loaded");
 var query = '';
 var queryType = '';
 var userEtsyCategory = "choose-one";
+var containerOne = document.querySelector('#container-one');
 var containerTwo = document.querySelector('#container-two');
 
 var etsyCategories = ["accessories", "art", "bags_and_purses", "bath_and_beauty", "books_and_zines", "candles",
@@ -58,6 +59,8 @@ $submitButton.on("click", function() {
         // build global object inside of ajaxCall:
         if (queryType === "listings") {
           var etsyListingsObj = buildListingsObj(response); // returns etsyListingsObj
+          containerOne.style.background = '#CFE6DA';
+          containerTwo.style.background = '#DFBA9D';
           templateMaker(etsyListingsObj, queryType);
 
         }
