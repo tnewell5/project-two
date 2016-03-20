@@ -56,15 +56,17 @@
 
         <script id="templateEvents" type="text/x-handlebars-template">
           {{#each events.event}}
-            <p class="bold">What: {{{this.title}}}</p>
-            <p>When: {{{this.start_time}}}</p>
-            <p>Where: {{{this.venue_name}}}</p>
-            {{#if this.image.medium}}
-              <a class="event" href={{url}} target="blank"><img class="event-img" src='{{this.image.medium.url}}'/></a>
-            {{else}}
-              <a class="event" href={{url}} target="blank"><img class="event-img" src="undefinedImg.jpeg"/></a>
-            {{/if}}
-            <br><br>
+            <div class="event-div">
+              <p class="bold">What: {{{this.title}}}</p>
+              <p>When: {{{this.start_time}}}</p>
+              <p>Where: {{{this.venue_name}}}</p>
+              {{#if this.image.medium}}
+                <a class="event" href={{url}} target="blank"><img class="event-img" src='{{this.image.medium.url}}'/></a>
+              {{else}}
+                <a class="event" href={{url}} target="blank"><img class="event-img" src="undefinedImg.jpeg"/></a>
+              {{/if}}
+              <br><br>
+            <div>
           {{/each}}
         </script>
     </div>

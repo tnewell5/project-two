@@ -182,20 +182,22 @@ submitButton2.addEventListener('click', function() {
     var html = template(object);
     templateContainer.innerHTML = html;
 
-    var eventsArray = document.querySelectorAll('.event');
+    var eventsArray = document.querySelectorAll('.event-img');
     for (var i = 0; i < eventsArray.length; i += 1) {
       eventsArray[i].addEventListener("dragend", saveEvent);
     } // closes for loop
   } // closes templateMakerEvents function
 
   var saveEvent = function(event) {
-    var imgParentAnchor = event.target.parentNode;
-    imgParentAnchor.parentNode.removeChild(imgParentAnchor);
+    console.log(event);
+    // get the parent Div of dragged img:
+    var eventParentDiv = event.target.parentNode.parentNode;
+    eventParentDiv.parentNode.removeChild(eventParentDiv);
 
     var savedContainer = document.querySelector("#saved-container");
-    savedContainer.appendChild(event.target.parentNode);
+    savedContainer.appendChild(eventParentDiv);
     event.target.removeEventListener("dragend", saveEvent);
-    imgParentAnchor.classList.add('saved-event');
+    eventParentDiv.classList.add('saved-event');
   } // closes saveEtsyItem function
 
 }); // closes submitButton2 eventListener
