@@ -50,18 +50,21 @@ h1 {
   display: flex;
   flex-direction: row;
   width: 1000px;
+
 }
 
 #container-one {
   width: 600px;
-  /*background-color: lightblue;*/
   height: 650px;
+  /*background-color: lightblue;*/
+  /*height: 2100px;*/
 }
 
 #container-two {
-  width: 360px;
-  /*background-color: lightyellow;*/
+  width: 400px;
   height: 650px;
+  /*background-color: lightyellow;*/
+  /*height: 2100px;*/
   padding-left: 10px;
 }
 
@@ -83,4 +86,25 @@ h1 {
 
 .saved-listing {
   padding-right: 10px;
+}
+
+.event-img {
+  height: 100px;
+  width: 100px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+p {
+  margin: 0;
+}
+
+#container-one.height {
+  height: 2375px;
+}
+
+#container-two.height {
+  height: 2375px;
 }

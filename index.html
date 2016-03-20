@@ -53,6 +53,20 @@
           </span>
           {{/each}}
         </script>
+        <div id="events-listings-container"></div>
+        <script id="templateEvents" type="text/x-handlebars-template">
+          {{#each events.event}}
+            <p class="bold">What: {{{this.title}}}</p>
+            <p>When: {{{this.start_time}}}</p>
+            <p>Where: {{{this.venue_name}}}</p>
+            {{#if this.image.medium}}
+              <a class="event" href={{url}} target="blank"><img class="event-img" src='{{this.image.medium.url}}'/></a>
+            {{else}}
+              <a class="event" href={{url}} target="blank"><img class="event-img" src="undefinedImg.jpeg"/></a>
+            {{/if}}
+            <br><br>
+          {{/each}}
+        </script>
     </div>
     <div class="hidden" id="container-two">
       <h2 id="saved-h2" class="hidden">Gift Ideas Pinboard</h2>

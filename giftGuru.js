@@ -55,7 +55,9 @@ $submitButton.on("click", function() {
         if (queryType === "listings") {
           var etsyListingsObj = buildListingsObj(response); // returns etsyListingsObj
           containerOne.style.background = '#CFE6DA';
+          containerOne.classList.add('height');
           containerTwo.style.background = '#DFBA9D';
+          containerTwo.classList.add('height');
           templateMaker(etsyListingsObj, queryType);
         }
     }).fail(function(response){
@@ -155,11 +157,39 @@ submitButton2.addEventListener('click', function() {
     console.log("success");
     console.log(response);
 
+    var etsyEventsObj = response; // returns etsyListingsObj
+
+    containerOne.classList.add('height');
+    containerOne.style.background = '#CFE6DA';
+    containerTwo.classList.add('height');
+    containerTwo.style.background = '#DFBA9D';
+
+    templateMakerEvents(etsyEventsObj);
+
   }).fail(function(response){
 
   }).always(function(response){
 
   });
+
+  function templateMakerEvents(object) {
+    var giftIdeasH2 = document.querySelector('#gift-ideas');
+    giftIdeasH2.classList.remove('hidden');
+    var savedIdeas = document.querySelector('#saved-h2');
+    savedIdeas.classList.remove('hidden');
+    containerTwo.classList.remove('hidden');
+
+    var source = document.querySelector('#templateEvents').innerHTML;
+    var template = Handlebars.compile(source);
+    var templateContainer = document.querySelector('#etsy-listings-container');
+    var html = template(object);
+    templateContainer.innerHTML = html;
+
+    // var listingsArray = document.querySelectorAll('.listing');
+    // for (var i = 0; i < listingsArray.length; i += 1) {
+    //   listingsArray[i].addEventListener("dragend", saveEtsyItem);
+    // } // closes for loop
+  } // closes templateMakerEvents function
 
 }); // closes submitButton2 eventListener
 
