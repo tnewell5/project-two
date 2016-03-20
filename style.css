@@ -77,7 +77,7 @@ h1 {
   /*padding-left: 25px;*/
 }
 
-#etsy-listings-container {
+#templates-container {
   padding-left: 10px;
 }
 
@@ -93,6 +93,11 @@ h1 {
   height: 100px;
   width: 100px;
 }
+
+/*img {
+  height: 100px;
+  width: 100px;
+}*/
 
 .bold {
   font-weight: bold;

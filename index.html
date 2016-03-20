@@ -45,7 +45,7 @@
 
         <!-- <h2 id="gift-ideas" class="hidden">Gift Ideas</h2> -->
         <!-- Etsy listings template: -->
-        <div id="etsy-listings-container"></div>
+        <div id="templates-container"></div>
         <script id="template" type="text/x-handlebars-template">
           {{#each results}}
           <span class="listings-span">
@@ -53,7 +53,7 @@
           </span>
           {{/each}}
         </script>
-        <div id="events-listings-container"></div>
+
         <script id="templateEvents" type="text/x-handlebars-template">
           {{#each events.event}}
             <p class="bold">What: {{{this.title}}}</p>

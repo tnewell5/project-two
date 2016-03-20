@@ -40,7 +40,6 @@ $submitButton.on("click", function() {
   //console.log(query);
   ajaxCall(query, queryType);
 
-
   function ajaxCall (query, queryType) {
     var ajaxCallResponse;
     $.ajax({
@@ -55,9 +54,7 @@ $submitButton.on("click", function() {
         if (queryType === "listings") {
           var etsyListingsObj = buildListingsObj(response); // returns etsyListingsObj
           containerOne.style.background = '#CFE6DA';
-          // containerOne.classList.add('height');
           containerTwo.style.background = '#DFBA9D';
-          // containerTwo.classList.add('height');
           templateMaker(etsyListingsObj, queryType);
         }
     }).fail(function(response){
@@ -83,7 +80,7 @@ $submitButton.on("click", function() {
     if (queryType === "listings") {
       var source = document.querySelector('#template').innerHTML;
       var template = Handlebars.compile(source);
-      var templateContainer = document.querySelector('#etsy-listings-container');
+      var templateContainer = document.querySelector('#templates-container');
       var html = template(object);
       templateContainer.innerHTML = html;
 
@@ -96,7 +93,7 @@ $submitButton.on("click", function() {
 
   var saveEtsyItem = function(event) {
 
-    var listingsParent = document.querySelector(".listings-span");
+    //var listingsParent = document.querySelector(".listings-span");
     var imgParentAnchor = event.target.parentNode;
     imgParentAnchor.parentNode.removeChild(imgParentAnchor);
 
@@ -181,15 +178,25 @@ submitButton2.addEventListener('click', function() {
 
     var source = document.querySelector('#templateEvents').innerHTML;
     var template = Handlebars.compile(source);
-    var templateContainer = document.querySelector('#etsy-listings-container');
+    var templateContainer = document.querySelector('#templates-container');
     var html = template(object);
     templateContainer.innerHTML = html;
 
-    // var listingsArray = document.querySelectorAll('.listing');
-    // for (var i = 0; i < listingsArray.length; i += 1) {
-    //   listingsArray[i].addEventListener("dragend", saveEtsyItem);
-    // } // closes for loop
+    var eventsArray = document.querySelectorAll('.event');
+    for (var i = 0; i < eventsArray.length; i += 1) {
+      eventsArray[i].addEventListener("dragend", saveEvent);
+    } // closes for loop
   } // closes templateMakerEvents function
+
+  var saveEvent = function(event) {
+    var imgParentAnchor = event.target.parentNode;
+    imgParentAnchor.parentNode.removeChild(imgParentAnchor);
+
+    var savedContainer = document.querySelector("#saved-container");
+    savedContainer.appendChild(event.target.parentNode);
+    event.target.removeEventListener("dragend", saveEvent);
+    imgParentAnchor.classList.add('saved-event');
+  } // closes saveEtsyItem function
 
 }); // closes submitButton2 eventListener
 
