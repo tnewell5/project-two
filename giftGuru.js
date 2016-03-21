@@ -18,7 +18,6 @@ for (var i = 0; i < etsyCategories.length; i +=1) {
   etsyCategoryOption.value = etsyCategories[i];
   etsyCategoryOption.innerText = etsyCategories[i];
   etsyCategoriesDropdown.appendChild(etsyCategoryOption);
-  //console.log(etsyCategoryOption);
 
 } // closes loop
 
@@ -37,7 +36,7 @@ $submitButton.on("click", function() {
     query = "https://openapi.etsy.com/v2/listings/active.js?keywords=" + $userEtsySearch + "&api_key=" + ETSY_KEY + "&includes=MainImage" + "&limit=28";
   }
   queryType = "listings";
-  //console.log(query);
+
   ajaxCall(query, queryType);
 
   function ajaxCall (query, queryType) {
@@ -48,9 +47,7 @@ $submitButton.on("click", function() {
 
     }).done(function(response) {
         console.log("success");
-        //console.log(response);
 
-        // build global object inside of ajaxCall:
         if (queryType === "listings") {
           var etsyListingsObj = buildListingsObj(response); // returns etsyListingsObj
           containerOne.style.background = '#CFE6DA';
@@ -71,8 +68,6 @@ $submitButton.on("click", function() {
   } // closes buildListingsObj function
 
   function templateMaker (object, queryType) {
-    // var giftIdeasH2 = document.querySelector('#gift-ideas');
-    // giftIdeasH2.classList.remove('hidden');
     var savedIdeas = document.querySelector('#saved-h2');
     savedIdeas.classList.remove('hidden');
     containerTwo.classList.remove('hidden');
@@ -92,8 +87,6 @@ $submitButton.on("click", function() {
   } // closes templateMaker function
 
   var saveEtsyItem = function(event) {
-
-    //var listingsParent = document.querySelector(".listings-span");
     var imgParentAnchor = event.target.parentNode;
     imgParentAnchor.parentNode.removeChild(imgParentAnchor);
 
@@ -170,8 +163,6 @@ submitButton2.addEventListener('click', function() {
   });
 
   function templateMakerEvents(object) {
-    // var giftIdeasH2 = document.querySelector('#gift-ideas');
-    // giftIdeasH2.classList.remove('hidden');
     var savedIdeas = document.querySelector('#saved-h2');
     savedIdeas.classList.remove('hidden');
     containerTwo.classList.remove('hidden');
@@ -189,11 +180,7 @@ submitButton2.addEventListener('click', function() {
   } // closes templateMakerEvents function
 
   var saveEvent = function(event) {
-    console.log(event);
-    // get the parent Div of dragged img:
     var eventParentDiv = event.target.parentNode.parentNode;
-    console.log("eventParentDiv: ");
-    console.log(eventParentDiv);
     eventParentDiv.parentNode.removeChild(eventParentDiv);
 
     var savedContainer = document.querySelector("#saved-container");
@@ -203,7 +190,5 @@ submitButton2.addEventListener('click', function() {
   } // closes saveEtsyItem function
 
 }); // closes submitButton2 eventListener
-
-
 
 }); // closed DOMContentLoaded
