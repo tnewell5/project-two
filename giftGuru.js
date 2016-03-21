@@ -192,6 +192,8 @@ submitButton2.addEventListener('click', function() {
     console.log(event);
     // get the parent Div of dragged img:
     var eventParentDiv = event.target.parentNode.parentNode;
+    console.log("eventParentDiv: ");
+    console.log(eventParentDiv);
     eventParentDiv.parentNode.removeChild(eventParentDiv);
 
     var savedContainer = document.querySelector("#saved-container");
